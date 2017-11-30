@@ -11,7 +11,7 @@
   "scripts": {
     "build": "npm run clean && npm run compile && NODE_ENV=production webpack -p && npm run build:demo",
     "build:demo": "NODE_ENV=production webpack -p --config webpack.config.demo.js",
-    "start": "webpack-dev-server --inline --hot --color --compress --port 3000 --config webpack.dev.config.js ",
+    "start": "webpack-dev-server --inline --hot --color --compress --port 8000 --config webpack.dev.config.js ",
     "clean": "rimraf lib/",
     "compile": "babel --copy-files -d lib/ src/",
     "deploy": "gh-pages-deploy",

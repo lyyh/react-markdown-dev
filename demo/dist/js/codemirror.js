@@ -106,8 +106,9 @@ CodeMirrorEditor = (function (require, module) {
           })
         } else if (item.kind === "file") {
           var blobFile = item.getAsFile()
+          var fileType = item.type
           if (blobFile.size === 0) return
-
+          
           // 异步传代码
           // var uploadFileURL = 'http://127.0.0.1:8000/uploadFile'
           // var fileData = new FormData()
@@ -123,8 +124,13 @@ CodeMirrorEditor = (function (require, module) {
           //     }
           // });
 
-          //封装FileReader对象
-          function readBlobAsDataURL(blob, callback) {
+          //封装FileReader对象 提取出公共的函数
+          function readBlobAsDataURL(blob, type,callback) {
+            // 非图片文件不能上传
+            if(!/^image\/[png|jpeg|gif]/.test(type)){
+              alert('非法的格式')
+              return
+            }
             var reader = new FileReader();
             reader.onload = function (e) {
               callback(e.target.result);
@@ -133,9 +139,8 @@ CodeMirrorEditor = (function (require, module) {
           }
 
           //传参
-          readBlobAsDataURL(blobFile, function (dataurl) {
+          readBlobAsDataURL(blobFile, fileType,function (dataurl) {
             var insertStr = "<img src='" + dataurl + "' />"
-            console.log(editorInstance)
             editorInstance.replaceSelection(insertStr);
           });
 
